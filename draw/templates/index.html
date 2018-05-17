@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Proudly presented by ECharts</title>
+    <script src="http://oog4yfyu0.bkt.clouddn.com/echarts.min.js"></script>
+    <script src="http://oog4yfyu0.bkt.clouddn.com/echarts-gl.js"></script>
+    <script type="text/javascript " src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+    <script type="text/javascript " src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+    <script type="text/javascript " src="http://oog4yfyu0.bkt.clouddn.com/wordcloud.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+
+<body>
+    <div style="text-align: center;">
+        <h1>NoSQL 课程设计</h1>
+        <p><font style="font-weight:bold;">小组成员:</font>
+            &nbsp;&nbsp;&nbsp;&nbsp;<font style="color:rgb(8, 8, 8);">江国洲</font>
+            &nbsp;&nbsp;&nbsp;&nbsp;陈住辉
+            &nbsp;&nbsp;&nbsp;&nbsp;李子贺</p>
+    </div>
+    <div class="input" align="center">
+        <form method="post" id="drawForm">
+            <label>Frequenct：</label>
+            <select name="freq" id="freq">
+                {% for freq in freqs %}
+                <option>{{ freq }}</option>
+                {% endfor %}
+            </select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label>&Phi; (0~π)：</label>
+            <select name="phi" id="phi">
+                {% for phi in phis %}
+                <option>{{ phi }}</option>> {% endfor %}
+            </select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button id="btn" type="submit"> 画图 </button>
+        </form>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="draw" align="center">
+        <div id="picturePlaceHolder"></div>
+        <!--{{ myechart|safe }}-->
+    </div>
+</body>
+
+<script>
+    $('#drawForm').on('submit', drawPicture);
+    function drawPicture() {
+        freq = $('#freq').val();
+        phi = $('#phi').val();
+        $.ajax({
+            type: 'post',
+            url: '/draw',
+            data: {
+                'freq': freq,
+                'phi': phi
+            },
+            success: function (data) {
+                //alert(data);
+                $('#picturePlaceHolder').html(data);
+            }
+        });
+        return false
+    }
+</script>
+
+</html>
